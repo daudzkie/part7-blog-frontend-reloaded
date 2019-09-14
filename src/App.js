@@ -4,6 +4,8 @@ import './App.css';
 /* COMPONENTS */
 import Blog from "./components/Blog";
 import Footer from './components/Footer';
+import Notification from './components/Notification';
+
 
 /* SERVICES */
 import loginService from "./services/login";
@@ -20,6 +22,8 @@ const App = () => {
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
   const [blogs, setBlogs] = useState([])
+  const [noficationMessage, setnoficationMessage] = useState(null)
+  const [notificationType, setnotificationType] = useState(null)
 
   useEffect(() => {
     blogService
@@ -68,11 +72,13 @@ const App = () => {
       setPassword('')
     } catch (exception) {
 
-      /* // If not, show an error
-      seterrorMessage('Wrong credentials')
+      // If not, show an error
+      setnotificationType('error')
+      setnoficationMessage('Wrong credentials')
       setTimeout(() => {
-        seterrorMessage(null)
-      }, 5000) */
+        setnoficationMessage(null)
+        setnotificationType(null)
+      }, 5000)
     }
   }
 
@@ -130,6 +136,16 @@ const App = () => {
     setNewAuthor('')
     setNewUrl('')
 
+    setnotificationType('success')
+
+    setnoficationMessage(
+      `A new blog "${createdBlog.title}" was created`
+    )
+    setTimeout(() => {
+      setnoficationMessage(null)
+      setnotificationType(null)
+    }, 5000)
+
   }
 
   const blogForm = () => (
@@ -178,18 +194,23 @@ const App = () => {
 
   return (
     <div>
+      <h1>Blogs App</h1>          
+
+      <Notification message={noficationMessage} type={notificationType} />
+
       {/* If user not logged, show loginForm */}
       {
         user === null ?
           loginForm() :
-          <div>
-            <h1>Blogs</h1>          
-            <p>{user.name} logged in</p>
-            <button onClick={handleLogout}>Log out</button>
+          <>
+            <p>{user.name} logged in
+              <button style={{margin: "10px"}} onClick={handleLogout}>Log out</button>
+            </p>
             {blogForm()}
             <br/>
+            <h3>Blogs</h3>
             {listBlogs()}
-          </div>
+          </>
       }
 
       <Footer />

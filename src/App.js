@@ -15,6 +15,14 @@ const App = () => {
   const [user, setUser] = useState(null)
 
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
+
   // Log every user
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -25,11 +33,11 @@ const App = () => {
 
       // If login is successful
       // Save user data into localstorage
-      /* window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
-      ) 
-      noteService.setToken(user.token)
-*/
+      window.localStorage.setItem(
+        'loggedBlogAppUser', JSON.stringify(user)
+      )
+/*       noteService.setToken(user.token) */
+
       setUser(user)
       // Empty the form fields
       setUsername('')
@@ -43,6 +51,8 @@ const App = () => {
       }, 5000) */
     }
   }
+
+  const handleLogout = () => { window.localStorage.removeItem('loggedBlogAppUser') }
 
   const loginForm = () => (
     <>
@@ -82,6 +92,7 @@ const App = () => {
           <div>
             <h1>Blogs</h1>          
             <p>{user.name} logged in</p>
+            <button onClick={handleLogout}>Log out</button>
             <br/>
             <div> Things I Don't Know as of 2018 - Dan Abramov </div>
           </div>

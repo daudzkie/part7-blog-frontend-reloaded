@@ -24,4 +24,4 @@ const loginForm = (handleLogin) => (
     </form>
 )
 
-export default loginForm;
+export default LoginForm;

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+/* COMPONENTS */
+import Blog from "./components/Blog";
 import Footer from './components/Footer';
 
 /* SERVICES */
 import loginService from "./services/login";
+import blogService from './services/blogs'
 
 
 const App = () => {
@@ -13,13 +16,32 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [newBlog, setNewBlog] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
+  const [blogs, setBlogs] = useState([])
 
+  useEffect(() => {
+    blogService
+      .getAll()
+      .then(initialBlogs => {
+        // setNotes update the state of the component
+        // triggering the re-render and consequently
+        // the console log('render 3 notes)
+        setBlogs(initialBlogs)
+      })
+  }, [])
 
+  // Everytime the app renders, check localStorage for the user credentials
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
+
       const user = JSON.parse(loggedUserJSON)
+
+      // Re-set the user and his token to be able to create new blog posts
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -36,7 +58,9 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogAppUser', JSON.stringify(user)
       )
-/*       noteService.setToken(user.token) */
+
+      // Set the token to be sent in each blog creation (POST)
+      blogService.setToken(user.token)
 
       setUser(user)
       // Empty the form fields
@@ -52,7 +76,10 @@ const App = () => {
     }
   }
 
-  const handleLogout = () => { window.localStorage.removeItem('loggedBlogAppUser') }
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogAppUser')
+    setUser(null)
+  }
 
   const loginForm = () => (
     <>
@@ -83,6 +110,72 @@ const App = () => {
     </>
   )
 
+  const addBlog = async (event) => {
+    // Prevent page reloading
+    event.preventDefault()
+
+    // Create new blog object
+    const blogObject = {
+      title: newBlog,
+      author: newAuthor,
+      url: newUrl,
+      user: user.id
+    }
+
+    const createdBlog = await blogService.create(blogObject)
+
+    setBlogs(blogs.concat(createdBlog))
+
+    setNewBlog('')
+    setNewAuthor('')
+    setNewUrl('')
+
+  }
+
+  const blogForm = () => (
+    <>
+    <h2>Create new blog post</h2>
+    <form onSubmit={addBlog}> 
+      <div>
+        Title: 
+        <input
+            type="text"
+            value={newBlog}
+            name="Blog"
+            onChange={({ target }) => setNewBlog(target.value)}
+        />
+      </div>
+      <div>
+        Author:
+        <input
+            type="text"
+            value={newAuthor}
+            name="Author"
+            onChange={({ target }) => setNewAuthor(target.value)}
+          />
+      </div>
+      <div>
+        URL:
+        <input
+            type="text"
+            value={newUrl}
+            name="URL"
+            onChange={({ target }) => setNewUrl(target.value)}
+          />
+      </div>
+        <button type="submit">Create</button>
+    </form>
+    </>
+  )
+
+  // Generate a new Blog element for each blog
+  const listBlogs = () => blogs.map(blog => 
+      <Blog
+        key={blog.id}
+        blog={blog}
+      />
+    )
+
   return (
     <div>
       {/* If user not logged, show loginForm */}
@@ -93,8 +186,9 @@ const App = () => {
             <h1>Blogs</h1>          
             <p>{user.name} logged in</p>
             <button onClick={handleLogout}>Log out</button>
+            {blogForm()}
             <br/>
-            <div> Things I Don't Know as of 2018 - Dan Abramov </div>
+            {listBlogs()}
           </div>
       }
 

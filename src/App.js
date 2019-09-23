@@ -10,6 +10,9 @@ import Notification from './components/Notification';
 /* SERVICES */
 import loginService from "./services/login";
 import blogService from './services/blogs'
+import LoginForm from './components/LoginForm';
+import Togglable from './components/Togglable';
+import BlogForm from './components/BlogForm';
 
 
 const App = () => {
@@ -24,6 +27,8 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [noficationMessage, setnoficationMessage] = useState(null)
   const [notificationType, setnotificationType] = useState(null)
+  const [loginVisible, setloginVisible] = useState(false)
+
 
   useEffect(() => {
     blogService
@@ -87,34 +92,34 @@ const App = () => {
     setUser(null)
   }
 
-  const loginForm = () => (
-    <>
-    
-    <h2>Login</h2>
+  const loginForm = () => {
 
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-    </>
-  )
+    // Change HTML display property
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none'}
+    
+    return (
+      <>
+        {/* Show the login form */}
+        <div style={hideWhenVisible}>
+          <button onClick={() => setloginVisible(true)}>Log In</button>
+        </div>
+
+        <div style={showWhenVisible}>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+
+          {/* Hide the login form */}
+          <button onClick={() => setloginVisible(false)}>Cancel</button>
+        </div>
+      </>
+    )
+  }
 
   const addBlog = async (event) => {
     // Prevent page reloading
@@ -148,42 +153,6 @@ const App = () => {
 
   }
 
-  const blogForm = () => (
-    <>
-    <h2>Create new blog post</h2>
-    <form onSubmit={addBlog}> 
-      <div>
-        Title: 
-        <input
-            type="text"
-            value={newBlog}
-            name="Blog"
-            onChange={({ target }) => setNewBlog(target.value)}
-        />
-      </div>
-      <div>
-        Author:
-        <input
-            type="text"
-            value={newAuthor}
-            name="Author"
-            onChange={({ target }) => setNewAuthor(target.value)}
-          />
-      </div>
-      <div>
-        URL:
-        <input
-            type="text"
-            value={newUrl}
-            name="URL"
-            onChange={({ target }) => setNewUrl(target.value)}
-          />
-      </div>
-        <button type="submit">Create</button>
-    </form>
-    </>
-  )
-
   // Generate a new Blog element for each blog
   const listBlogs = () => blogs.map(blog => 
       <Blog
@@ -206,8 +175,20 @@ const App = () => {
             <p>{user.name} logged in
               <button style={{margin: "10px"}} onClick={handleLogout}>Log out</button>
             </p>
-            {blogForm()}
-            <br/>
+            {/* Add visibility functionality to the Blog Form */}
+            <Togglable buttonLabel='New blog post'>
+              <BlogForm 
+                onSubmit={addBlog}
+                title={newBlog}
+                author={newAuthor}
+                url={newUrl}
+                handleBlogChange={({ target }) => setNewBlog(target.value)}
+                handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+                handleUrlChange={({ target }) => setNewUrl(target.value)}
+                />
+            {/* If a component is defined with an automatically closing /> tag,
+                props.children will be an empty array */}
+            </Togglable>
             <h3>Blogs</h3>
             {listBlogs()}
           </>

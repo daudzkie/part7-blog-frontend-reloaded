@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLikes }) => {
   const blogStyle = {
     padding: 7,
     border: 'solid',
@@ -14,24 +14,23 @@ const Blog = ({ blog }) => {
 
   const showExpanded = () => {
     setExpanded(!expanded)
-    console.log('Expanded')
   }
 
   return (
-    <div style={blogStyle} onClick={showExpanded}>
+    <div id={'blog'} style={blogStyle}>
       {expanded === false ?
-        <div>
+        <div onClick={showExpanded}>
           {blog.title} - {blog.author}
         </div>
         :
-        <div onClick={showExpanded}>
+        <div>
           <ul>
             <li>{blog.title}</li>
             <li>{blog.url === "" ? "No url provided" : blog.url}</li>
-            <li>{blog.likes} <button onClick={() => console.log('liked')}>Like</button></li>
+            <li>{blog.likes} <button onClick={() => handleLikes(blog.id, blog.likes)}>Like</button></li>
             <li>Added by {blog.author}</li>
           </ul>
- 
+            <button onClick={showExpanded}>Contract</button>
         </div>}
     </div>
   )

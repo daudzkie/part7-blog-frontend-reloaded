@@ -29,14 +29,12 @@ const App = () => {
   const [notificationType, setnotificationType] = useState(null)
   const [loginVisible, setloginVisible] = useState(false)
 
-
   useEffect(() => {
     blogService
       .getAll()
       .then(initialBlogs => {
-        // setNotes update the state of the component
-        // triggering the re-render and consequently
-        // the console log('render 3 notes)
+        // setBlogs update the state of the component
+        // triggering the re-render
         setBlogs(initialBlogs)
       })
   }, [])
@@ -153,13 +151,35 @@ const App = () => {
 
   }
 
+  const handleBlogLikes = async (blogId, blogLikes) => {
+
+    // Set the number of likes
+    const blogObject = {
+      likes: blogLikes + 1,
+    }
+
+    // Send the PUT request through the blogService
+    const updatedBlog = await blogService.update(blogId, blogObject)
+ 
+    // Change only the updated blog on the list of blogs
+    setBlogs(blogs.map(blog => 
+      blog.id !== blogId
+      ? blog
+      : updatedBlog
+    ))
+
+  }
+
   // Generate a new Blog element for each blog
   const listBlogs = () => blogs.map(blog => 
       <Blog
         key={blog.id}
         blog={blog}
+        handleLikes={handleBlogLikes}
       />
     )
+  
+
 
   return (
     <div>

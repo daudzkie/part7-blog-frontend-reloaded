@@ -21,8 +21,15 @@ const create = async newObject => {
   return response.data
 }
 
+// In this case we send only the numbre of likes, not the entire blog post
+const update = async (id, newObject) => {
+  const response = await axios.put(`${baseUrl}/${id}`, newObject)
+  return response.data
+}
+
 export default { 
   setToken,
   getAll,
-  create
+  create,
+  update
 }

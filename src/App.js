@@ -266,6 +266,7 @@ const App = () => {
               blogsToShow={blogsToShow}
               handleLikes={handleBlogLikes}
               deleteBlog={removeBlog}
+              currentUser={user}
             />
           </>
       }

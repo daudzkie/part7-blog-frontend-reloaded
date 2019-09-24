@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, handleLikes, deleteBlog }) => {
+const Blog = ({ blog, handleLikes, deleteBlog, currentUser }) => {
   const blogStyle = {
     padding: 7,
     border: 'solid',
@@ -32,15 +32,19 @@ const Blog = ({ blog, handleLikes, deleteBlog }) => {
         </div>
         :
         <div>
+          <button onClick={showExpanded}>Collapse</button>
           <ul>
             <li>{blog.title}</li>
             <li>{blog.url === "" ? "No url provided" : blog.url}</li>
             <li>{blog.likes} <button onClick={() => handleLikes(blog.id, blog.likes)}>Like</button></li>
             <li>Added by {blog.author}</li>
           </ul>
-            <button onClick={showExpanded}>Contract</button>
+
             {/* deleteBlog */}
-            <button onClick={confirmDeletion}>Remove</button>
+            {currentUser.username === blog.user.username
+              ? <button onClick={confirmDeletion}>Remove</button>
+              : null
+            }
         </div>}
     </div>
   )

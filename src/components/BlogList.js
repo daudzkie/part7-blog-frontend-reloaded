@@ -2,7 +2,7 @@ import React from 'react'
 import Blog from './Blog'
 
 // Generate a new Blog element for each blog
-const BlogList = ({ blogsToShow, handleLikes, deleteBlog }) => {
+const BlogList = ({ blogsToShow, handleLikes, deleteBlog, currentUser }) => {
     
     return (
         blogsToShow.map(blog => 
@@ -11,6 +11,7 @@ const BlogList = ({ blogsToShow, handleLikes, deleteBlog }) => {
                 blog={blog}
                 handleLikes={handleLikes}
                 deleteBlog={deleteBlog}
+                currentUser={currentUser}
             />
         )
     )

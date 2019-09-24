@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 /* COMPONENTS */
-import Blog from "./components/Blog";
 import Footer from './components/Footer';
 import Notification from './components/Notification';
 
@@ -13,6 +12,7 @@ import blogService from './services/blogs'
 import LoginForm from './components/LoginForm';
 import Togglable from './components/Togglable';
 import BlogForm from './components/BlogForm';
+import BlogList from './components/BlogList';
 
 
 const App = () => {
@@ -28,6 +28,7 @@ const App = () => {
   const [noficationMessage, setnoficationMessage] = useState(null)
   const [notificationType, setnotificationType] = useState(null)
   const [loginVisible, setloginVisible] = useState(false)
+  const [showSorted, setshowSorted] = useState(false)
 
   useEffect(() => {
     blogService
@@ -170,16 +171,27 @@ const App = () => {
 
   }
 
-  // Generate a new Blog element for each blog
-  const listBlogs = () => blogs.map(blog => 
-      <Blog
-        key={blog.id}
-        blog={blog}
-        handleLikes={handleBlogLikes}
-      />
-    )
-  
+  const handleSort = (event) => {
 
+    showSorted
+      ? event.target.textContent = "Most liked"
+      : event.target.textContent = "Creation order"
+
+    setshowSorted(!showSorted)
+
+  }
+
+  // Do not mutate data
+  // Create a new array with the current blogs
+  let blogsToSort = Array.from(blogs);
+
+  /**
+   * Si `showSorted` === `false`, `blogsToShow` contendrá los blogs ordenados normalmente.
+   * Si no contendrá los blogs ordenaods por cantidad de likes.
+   */
+  const blogsToShow = showSorted
+    ? blogsToSort.sort((a, b) => b.likes - a.likes)
+    : blogs
 
   return (
     <div>
@@ -209,8 +221,12 @@ const App = () => {
             {/* If a component is defined with an automatically closing /> tag,
                 props.children will be an empty array */}
             </Togglable>
-            <h3>Blogs</h3>
-            {listBlogs()}
+            <div style={({marginBottom: 10})}>
+              <h3>Blogs</h3>
+              <h5>Order by</h5>
+              <button onClick={handleSort}>Most liked</button>
+            </div>
+            <BlogList blogsToShow={blogsToShow} handleLikes={handleBlogLikes} />
           </>
       }
 

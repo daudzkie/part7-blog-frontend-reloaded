@@ -152,6 +152,42 @@ const App = () => {
 
   }
 
+  const removeBlog = async (blogId, blogName) => {
+    
+    try {
+      // Utiliza el blogService para enviar una DELETE request
+      await blogService.deleteBlog(blogId)
+
+      /* Actualiza los posts a renderizar
+      excluyendo al que coincide con el
+      id recientemente eliminado. */
+      setBlogs(blogs.filter(blog => blog.id !== blogId))
+
+
+      // Muestra notificación por 5 seg. y vuelve a su estado original
+      setnotificationType('success')
+      setnoficationMessage(
+        `${blogName} has been removed from server.`
+      )
+      setTimeout(() => {
+        setnoficationMessage(null)
+        setnotificationType(null)
+      }, 5000)
+
+    } catch (error) {
+      console.log('Error', error)
+
+      let errorMessage = error.response.data.error
+
+      setnoficationMessage(errorMessage)
+
+      setTimeout(() => {
+        setnoficationMessage(null)
+      }, 5000)
+    }
+    
+  }
+
   const handleBlogLikes = async (blogId, blogLikes) => {
 
     // Set the number of likes
@@ -226,7 +262,11 @@ const App = () => {
               <h5>Order by</h5>
               <button onClick={handleSort}>Most liked</button>
             </div>
-            <BlogList blogsToShow={blogsToShow} handleLikes={handleBlogLikes} />
+            <BlogList 
+              blogsToShow={blogsToShow}
+              handleLikes={handleBlogLikes}
+              deleteBlog={removeBlog}
+            />
           </>
       }
 

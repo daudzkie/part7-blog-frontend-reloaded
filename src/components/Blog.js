@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, handleLikes }) => {
+const Blog = ({ blog, handleLikes, deleteBlog }) => {
   const blogStyle = {
     padding: 7,
     border: 'solid',
@@ -14,6 +14,14 @@ const Blog = ({ blog, handleLikes }) => {
 
   const showExpanded = () => {
     setExpanded(!expanded)
+  }
+
+  const confirmDeletion = () => {
+
+    if(window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+      deleteBlog(blog.id, blog.title)
+    }
+    return 0
   }
 
   return (
@@ -31,6 +39,8 @@ const Blog = ({ blog, handleLikes }) => {
             <li>Added by {blog.author}</li>
           </ul>
             <button onClick={showExpanded}>Contract</button>
+            {/* deleteBlog */}
+            <button onClick={confirmDeletion}>Remove</button>
         </div>}
     </div>
   )

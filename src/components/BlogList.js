@@ -3,9 +3,9 @@ import Blog from './Blog'
 
 // Generate a new Blog element for each blog
 const BlogList = ({ blogsToShow, handleLikes, deleteBlog, currentUser }) => {
-    
+
     return (
-        blogsToShow.map(blog => 
+        blogsToShow.map(blog =>
             <Blog
                 key={blog.id}
                 blog={blog}
@@ -17,4 +17,4 @@ const BlogList = ({ blogsToShow, handleLikes, deleteBlog, currentUser }) => {
     )
 }
 
-export default BlogList;
+export default BlogList

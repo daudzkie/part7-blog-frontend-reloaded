@@ -14,7 +14,7 @@ const BlogForm = ({
         <form onSubmit={onSubmit}>
             <div>
                 Title:
-        <input
+                <input
                     type="text"
                     value={title}
                     name="Blog"
@@ -23,7 +23,7 @@ const BlogForm = ({
             </div>
             <div>
                 Author:
-        <input
+                <input
                     type="text"
                     value={author}
                     name="Author"
@@ -32,7 +32,7 @@ const BlogForm = ({
             </div>
             <div>
                 URL:
-        <input
+                <input
                     type="text"
                     value={url}
                     name="URL"
@@ -44,4 +44,4 @@ const BlogForm = ({
     </>
 )
 
-export default BlogForm;
+export default BlogForm

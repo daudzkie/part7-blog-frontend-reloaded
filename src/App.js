@@ -21,11 +21,14 @@ const App = () => {
     // Custom hooks
     const username = useField('text')
     const password = useField('password')
+    const blogTitle = useField('text')
+    const blogAuthor = useField('text')
+    const blogUrl = useField('text')
+//    const [newBlog, setNewBlog] = useState('')
+//    const [newAuthor, setNewAuthor] = useState('')
+//    const [newUrl, setNewUrl] = useState('')
     // State hooks
     const [user, setUser] = useState(null)
-    const [newBlog, setNewBlog] = useState('')
-    const [newAuthor, setNewAuthor] = useState('')
-    const [newUrl, setNewUrl] = useState('')
     const [blogs, setBlogs] = useState([])
     const [noficationMessage, setnoficationMessage] = useState(null)
     const [notificationType, setnotificationType] = useState(null)
@@ -81,8 +84,8 @@ const App = () => {
             setUser(user)
 
             // Empty the form fields using custom hook
-            username.setValue('')
-            password.setValue('')
+            username.reset('')
+            password.reset('')
 
         } catch (exception) {
 
@@ -134,9 +137,9 @@ const App = () => {
 
         // Create new blog object
         const blogObject = {
-            title: newBlog,
-            author: newAuthor,
-            url: newUrl,
+            title: blogTitle.value,
+            author: blogAuthor.value,
+            url: blogUrl.value,
             user: user.id
         }
 
@@ -144,9 +147,10 @@ const App = () => {
 
         setBlogs(blogs.concat(createdBlog))
 
-        setNewBlog('')
-        setNewAuthor('')
-        setNewUrl('')
+        // Use custom hook functionality to reset state
+        blogTitle.reset()
+        blogAuthor.reset()
+        blogUrl.reset()
 
         setnotificationType('success')
 
@@ -254,13 +258,10 @@ const App = () => {
             {/* Add visibility functionality to the Blog Form */}
             <Togglable buttonLabel='New blog post'>
                 <BlogForm
+                    title={blogTitle}
+                    author={blogAuthor}
+                    url={blogUrl}
                     onSubmit={addBlog}
-                    title={newBlog}
-                    author={newAuthor}
-                    url={newUrl}
-                    handleBlogChange={({ target }) => setNewBlog(target.value)}
-                    handleAuthorChange={({ target }) => setNewAuthor(target.value)}
-                    handleUrlChange={({ target }) => setNewUrl(target.value)}
                 />
                 {/* If a component is defined with an automatically closing /> tag,
                 props.children will be an empty array */}

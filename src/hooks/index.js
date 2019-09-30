@@ -11,10 +11,17 @@ export const useField = (type) => {
         setValue(event.target.value)
     }
 
+    /**
+     * Uses `setValue` hook to reset the state
+     */
+    const reset = () => {
+        setValue('')
+    }
+
     return {
         type,
         value,
         onChange,
-        setValue
+        reset
     }
 }

@@ -13,12 +13,15 @@ import BlogList from './components/BlogList'
 import loginService from './services/login'
 import blogService from './services/blogs'
 
+/* HOOKS */
+import { useField } from './hooks/index';
 
 const App = () => {
 
+    // Custom hooks
+    const username = useField('text')
+    const password = useField('password')
     // State hooks
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [newBlog, setNewBlog] = useState('')
     const [newAuthor, setNewAuthor] = useState('')
@@ -56,9 +59,15 @@ const App = () => {
     const handleLogin = async (event) => {
         event.preventDefault()
         try {
-            const user = await loginService.login({
-                username, password
-            })
+
+            // Define credentials
+            const credentials = {
+                username: username.value,
+                password: password.value
+            }
+
+            // Send login request and save user information on `user`
+            const user = await loginService.login(credentials)
 
             // If login is successful
             // Save user data into localstorage
@@ -70,9 +79,11 @@ const App = () => {
             blogService.setToken(user.token)
 
             setUser(user)
-            // Empty the form fields
-            setUsername('')
-            setPassword('')
+
+            // Empty the form fields using custom hook
+            username.setValue('')
+            password.setValue('')
+
         } catch (exception) {
 
             // If not, show an error
@@ -107,8 +118,6 @@ const App = () => {
             <LoginForm
                 username={username}
                 password={password}
-                handleUsernameChange={({ target }) => setUsername(target.value)}
-                handlePasswordChange={({ target }) => setPassword(target.value)}
                 handleSubmit={handleLogin}
             />
 

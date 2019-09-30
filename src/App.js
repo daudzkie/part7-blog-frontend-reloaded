@@ -24,9 +24,6 @@ const App = () => {
     const blogTitle = useField('text')
     const blogAuthor = useField('text')
     const blogUrl = useField('text')
-//    const [newBlog, setNewBlog] = useState('')
-//    const [newAuthor, setNewAuthor] = useState('')
-//    const [newUrl, setNewUrl] = useState('')
     // State hooks
     const [user, setUser] = useState(null)
     const [blogs, setBlogs] = useState([])

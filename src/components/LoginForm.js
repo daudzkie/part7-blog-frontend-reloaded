@@ -1,42 +1,113 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 
-const LoginForm = ({
-    username,
-    password,
-    handleSubmit
-}) => {
+/* HOOKS */
+import { useField } from '../hooks/index';
+
+import { login, logout } from "../reducers/userReducer";
+import { setNotification } from "../reducers/notificationReducer";
+
+const LoginForm = (props) => {
+
+    // Custom hooks
+    const username = useField('text')
+    const password = useField('password')
+
+    // State hooks
+    const [loginVisible, setloginVisible] = useState(false)
+
+    // Log every user
+    const handleLogin = async (event) => {
+        event.preventDefault()
+        
+        try {
+
+            // Define credentials
+            const credentials = {
+                username: event.target.username.value,
+                password: event.target.password.value
+            }
+
+            // This shoots the login function in userReducer,
+            // which updates the state "or not"
+            props.login(credentials)
+
+        } catch (exception) {
+            console.log('ERROR', exception)
+            // If not, show an error
+            props.setNotification('Wrong credentials', 5)
+        }
+
+        // Set the token to be sent in each blog creation (POST)
+        //blogService.setToken(loggedUser.token)
+
+        // Empty the form fields using custom hook
+        username.reset('')
+        password.reset('')
+    }
+
+    const handleLogout = async () => {
+        window.localStorage.removeItem('loggedBlogAppUser')
+        props.logout()
+    }
+
+    // Change HTML display property
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
     return (
-        <>
-        <h2>Login</h2>
+        <div>
+            {/* If user not logged, show loginForm */}
+            {props.currentUser === '' ? 
+                <>
+                    {/* Show the login form */}
+                    <div style={hideWhenVisible} >
+                        <button onClick={() => setloginVisible(true)}>Log In</button>
+                    </div>
 
-        <form onSubmit={handleSubmit}>
-            <div>
-                username
-                <input 
-                    type={username.type}
-                    value={username.value}
-                    onChange={username.onChange}
-                />
-            </div>
-            <div>
-                password
-                <input 
-                    type={password.type}
-                    value={password.value}
-                    onChange={password.onChange}
-                />
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        </>
+
+                    <div style={showWhenVisible}>
+                        <h2>Login</h2>
+                        <form onSubmit={handleLogin}>
+                            <div>
+                                username
+                            <input name="username" />
+                            </div>
+                            <div>
+                                password
+                            <input name="password" />
+                            </div>
+                            <button type="submit">Login</button>
+                        </form>
+
+                        {/* Hide the login form */}
+                        <button onClick={() => setloginVisible(false)}>Cancel</button>
+
+                    </div>
+                </>
+                : <p>{props.currentUser.name} logged in
+                    <button style={{ margin: '10px' }} onClick={handleLogout}>Log out</button>
+                </p>
+            }
+        </div>
     )
 }
 
-LoginForm.propTypes = {
-    username: PropTypes.object.isRequired,
-    password: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.user
+    }
 }
 
-export default LoginForm
+
+const mapDispatchToProps = {
+    login,
+    logout,
+    setNotification
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginForm)

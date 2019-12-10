@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 const Blog = ({ blog, handleLikes, deleteBlog, currentUser }) => {
 
-    console.log(blog, currentUser)
     
     const blogStyle = {
         padding: 7,

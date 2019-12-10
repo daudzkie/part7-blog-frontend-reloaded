@@ -9,7 +9,6 @@ import { filterChange } from "../reducers/filterReducer"
 
 const BlogList = (props) => {
 
-    console.log('BlogList props', props)
     const likeHandler = (blog) => {
         props.likeBlog(blog)
     }

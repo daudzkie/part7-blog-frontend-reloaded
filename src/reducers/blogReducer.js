@@ -33,7 +33,12 @@ const blogReducer = (state = [], action) => {
             /* Actualiza los posts a renderizar
               excluyendo al que coincide con el
               id recientemente eliminado. */
-              console.log('REMOVE BLOG')
+
+            // Extract blog id
+            const blogToRemoveID = action.data.id
+
+            // Return the blogs without the removed one
+            return state.filter(b => b.id !== blogToRemoveID)
         default:
             return state
     }
@@ -81,10 +86,11 @@ export const removeBlog = blog => {
     return async dispatch => {
 
         // Utiliza el blogService para enviar una DELETE request
-        const deletedBlog = await blogService.deleteBlog(blog.id)
+        await blogService.deleteBlog(blog.id)
+        
         dispatch({
             type: 'REMOVE',
-            data: deletedBlog
+            data: blog
         })
 
     }

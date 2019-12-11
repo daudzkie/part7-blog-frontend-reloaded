@@ -8,8 +8,6 @@ import { useField } from "../hooks/index";
 
 const BlogForm = (props) => {
 
-    console.log('BlogForm PROPS', props)
-
     const blogTitle = useField('text')
     const blogAuthor = useField('text')
     const blogUrl = useField('text')
@@ -28,8 +26,12 @@ const BlogForm = (props) => {
 
         props.createBlog(blogObject)
         
+        let notificationMsg = `A new blog "${blogObject.title}" was created`
+
         props.setNotification(
-            `A new blog "${blogObject.title}" was created`, 5
+            notificationMsg,
+            'success',
+            5
         )
 
         /* setBlogs(blogs.concat(createdBlog)) */
@@ -44,9 +46,9 @@ const BlogForm = (props) => {
      * Toma el valor de `reset` dentro de `title` y lo guarda en `resetTitle`
      * Las demas propiedades de `title` son pasadas a `titleProps`
      * */
-    /* const { reset: resetTitle, ...titleProps } = title
-    const { reset: resetAuthor, ...authorProps } = author
-    const { reset: resetUrl, ...urlProps } = url */
+    const { reset: resetTitle, ...titleProps } = blogTitle
+    const { reset: resetAuthor, ...authorProps } = blogAuthor
+    const { reset: resetUrl, ...urlProps } = blogUrl
 
     return (
         <>
@@ -54,15 +56,15 @@ const BlogForm = (props) => {
             <form onSubmit={addBlog}>
                 <div>
                     Title:
-                    <input name="title" />
+                    <input name="title" {...titleProps} />
                 </div>
                 <div>
                     Author:
-                    <input name="author" />
+                    <input name="author" {...authorProps}  />
                 </div>
                 <div>
                     URL:
-                    <input name="url" />
+                    <input name="url" {...urlProps} />
                 </div>
                 <button type="submit">Create</button>
             </form>

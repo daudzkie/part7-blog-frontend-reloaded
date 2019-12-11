@@ -33,9 +33,8 @@ const LoginForm = (props) => {
             props.login(credentials)
 
         } catch (exception) {
-            console.log('ERROR', exception)
             // If not, show an error
-            props.setNotification('Wrong credentials', 5)
+            props.setNotification('Wrong credentials. Try again.', 'error', 5)
         }
 
         // Set the token to be sent in each blog creation (POST)

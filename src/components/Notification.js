@@ -3,25 +3,18 @@ import { connect } from "react-redux";
 
 const Notification = (props) => {
 
-    const notificationMessage = props.message
+    const notificationMessage = props.notifications.text
 
-    if (notificationMessage === null) {
+    if (notificationMessage === '') {
         return null
     }
 
-    if (props.type === 'success') {
-        return (
-            <div className='success'>
-                {notificationMessage}
-            </div>
-        )
-    }
-
     return (
-        <div className='error'>
+        <div className={props.notifications.style}>
             {notificationMessage}
         </div>
     )
+    
 }
 
 const mapStateToProps = (state) => {
@@ -30,4 +23,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Notification)
+export default connect(
+    mapStateToProps
+)(Notification)

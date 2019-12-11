@@ -5,16 +5,22 @@ import Blog from './Blog'
 import { likeBlog } from '../reducers/blogReducer'
 import { removeBlog } from '../reducers/blogReducer'
 import { filterChange } from "../reducers/filterReducer"
-
+import { setNotification } from "../reducers/notificationReducer";
 
 const BlogList = (props) => {
 
     const likeHandler = (blog) => {
         props.likeBlog(blog)
+
+        let notificationMsg = `The blog ${blog.title} was liked`
+        props.setNotification(notificationMsg, 'success', 5)
     }
 
     const removeHandler = (blog) => {
         props.removeBlog(blog)
+
+        let notificationMsg = `The blog ${blog.title} was deleted`
+        props.setNotification(notificationMsg, 'error', 5)
     }
 
     return (
@@ -77,7 +83,8 @@ const mapStateToProps = (state) => {
     return {
         visibleBlogs: blogsToShow(state),
         filter: state.filter,
-        currentUser : state.user
+        currentUser: state.user,
+        notifications: state.notifications
     }
 }
 
@@ -87,7 +94,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     likeBlog,
     removeBlog,
-    filterChange
+    filterChange,
+    setNotification
 }
 
 // we can export directly the component returned by connect

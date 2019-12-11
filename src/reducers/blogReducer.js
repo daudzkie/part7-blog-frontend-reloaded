@@ -21,14 +21,11 @@ const blogReducer = (state = [], action) => {
                 likes: blogToLike.likes + 1
             }
 
-            /* Replace the state with all the 
-            blogs not changed and the created one */
-            const blogsToSort = state.map(blog =>
+            /* Return the state with all the 
+            blogs not changed and the liked one */
+            return state.map(blog =>
                 blog.id !== id ? blog : likedBlog
             )
-
-            // Return the blogs sorted by most likes
-            return blogsToSort.sort((a, b) => b.likes - a.likes)
         case 'REMOVE':
             /* Actualiza los posts a renderizar
               excluyendo al que coincide con el

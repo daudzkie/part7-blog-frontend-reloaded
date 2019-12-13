@@ -83,7 +83,7 @@ const mapStateToProps = (state) => {
     return {
         visibleBlogs: blogsToShow(state),
         filter: state.filter,
-        currentUser: state.user,
+        currentUser: state.users.currentUser,
         notifications: state.notifications
     }
 }

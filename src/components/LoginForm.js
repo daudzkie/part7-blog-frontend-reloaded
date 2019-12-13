@@ -84,7 +84,7 @@ const LoginForm = (props) => {
 
                     </div>
                 </>
-                : <p>{props.currentUser.name} logged in
+                : <p><b>{props.currentUser.name}</b> logged in
                     <button style={{ margin: '10px' }} onClick={handleLogout}>Log out</button>
                 </p>
             }
@@ -95,7 +95,7 @@ const LoginForm = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.user
+        currentUser: state.users.currentUser
     }
 }
 

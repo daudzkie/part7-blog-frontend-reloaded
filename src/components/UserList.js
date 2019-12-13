@@ -1,10 +1,17 @@
 import React from 'react'
 import { connect } from "react-redux";
-
+import { Link, Route } from "react-router-dom";
+import User from '../components/User';
 
 const userList = (props) => {
 
-    console.log('PROPS', props)
+    console.log('list', props)
+    /* When navigating directly to /users/, the React application
+    has not yet received the data from the backend.  */
+    if (props.users === undefined) {
+        return null
+    }
+
     return (
         <>
             <div style={({ marginBottom: 10 })}>
@@ -20,13 +27,14 @@ const userList = (props) => {
                         {/* Generate a new row for each user */}
                         {props.users.map(user => 
                             <tr key={user.id}>
-                                <td>{user.name}</td>
+                                <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
                                 <td>{user.blogs.length}</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
+            
         </>
     )
 }

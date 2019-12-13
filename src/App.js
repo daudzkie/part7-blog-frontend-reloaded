@@ -19,8 +19,8 @@ import BlogList from './components/BlogList'
 /* REDUCERS */
 import { initializeBlogs } from "./reducers/blogReducer";
 import { relogin, getAllUsers } from './reducers/userReducer'
-import Users from './components/Users';
-
+import UserList from './components/UserList';
+import User from "./components/User";
 
 const App = (props) => {
 
@@ -47,14 +47,22 @@ const App = (props) => {
                 <Menu />
                 <Notification />
                 <LoginForm />
+                <Route exact path="/" render={() => 
+                <>
                 {/* Add visibility functionality to the Blog Form */}
-                <Togglable buttonLabel='New blog post'>
-                    <BlogForm />
-                    {/* If a component is defined with an automatically closing /> tag,
-                props.children will be an empty array */}
-                </Togglable>
-                <Route exact path="/" render={() => <BlogList />} />
-                <Route path="/users" render={() => <Users />} />
+                    <Togglable buttonLabel='New blog post'>
+                        <BlogForm />
+                        {/* If a component is defined with an automatically closing /> tag,
+                    props.children will be an empty array */}
+                    </Togglable>
+                    <BlogList />
+                    </> 
+                    
+                }/>
+                <Route path="/users" render={() => <UserList />} />
+                <Route exact path="/users/:id" render={({ match }) =>
+                    <User id={match.params.id} />
+                } />
             </Router>
             <br />
             <Footer />

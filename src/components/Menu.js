@@ -10,7 +10,7 @@ const Menu = () => {
     return (
         <div style={menuStyle}>
             <Link to='/' style={padding}>Home</Link>
-            <Link to='users' style={padding}>Users</Link>
+            <Link to='/users' style={padding}>Users</Link>
             <br />
         </div>
     )

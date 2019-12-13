@@ -70,8 +70,13 @@ export const createBlog = blogObject => {
 export const likeBlog = blog => {
     return async dispatch => {
 
-        // Send the PUT request through the blogService
-        const likedBlog = await blogService.update(blog.id, blog.likes)
+        // Create an object with the property to be changed
+        const likesObject = {
+            likes: blog.likes + 1
+        }
+
+        // Send the PUT request with blog likes + 1 added
+        const likedBlog = await blogService.update(blog.id, likesObject)
         dispatch({
             type: 'LIKE',
             data: likedBlog

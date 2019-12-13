@@ -1,55 +1,79 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { connect } from "react-redux";
 
-const Blog = ({ blog, handleLikes, deleteBlog, currentUser }) => {
+import { likeBlog } from '../reducers/blogReducer'
+import { removeBlog } from '../reducers/blogReducer'
+import { setNotification } from "../reducers/notificationReducer";
 
+const Blog = (props) => {
+
+    if (props.blogData === undefined) {
+        return null
+    }
+
+    let blog = props.blogData
     
-    const blogStyle = {
-        padding: 7,
-        border: 'solid',
-        borderColor: 'cornflowerblue',
-        borderWidth: 4,
-        borderRadius: 10,
-        marginBottom: 5
+    const likeHandler = (blog) => {
+
+        props.likeBlog(blog)
+
+        let notificationMsg = `The blog ${blog.title} was liked`
+        props.setNotification(notificationMsg, 'success', 5)
     }
 
-    const [expanded, setExpanded] = useState(false)
+    const removeHandler = (blog) => {
+        
+        if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+            props.removeBlog(blog)
 
-    const showExpanded = () => {
-        setExpanded(!expanded)
-    }
-
-    const confirmDeletion = () => {
-
-        if(window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
-            deleteBlog(blog.id, blog.title)
+            let notificationMsg = `The blog ${blog.title} was deleted`
+            props.setNotification(notificationMsg, 'error', 5)
         }
         return 0
     }
 
     return (
-        <div id={'blog'} style={blogStyle}>
-            {expanded === false ?
-                <div onClick={showExpanded}>
-                    {blog.title} - {blog.author}
-                </div>
-                :
-                <div>
-                    <button onClick={showExpanded}>Collapse</button>
-                    <ul>
-                        <li>{blog.title}</li>
-                        <li>{blog.url === '' ? 'No url provided' : blog.url}</li>
-                        <li>{blog.likes} <button onClick={() => handleLikes(blog.id, blog.likes)}>Like</button></li>
-                        <li>Added by {blog.author}</li>
-                    </ul>
-
-                    {/* deleteBlog */}
-                    {currentUser.username === blog.user.username
-                        ? <button onClick={confirmDeletion}>Remove</button>
-                        : null
-                    }
-                </div>}
+        <div>
+            <h2>{blog.title}</h2>
+            <ul>
+                <li>
+                    {blog.url === ''
+                        ? 'No url provided'
+                        : <a href={blog.url}>{blog.url}</a>}
+                    
+                </li>
+                <li>{blog.likes} <button onClick={() => likeHandler(blog)}>Like</button></li>
+                <li>Added by {blog.author}</li>
+                <li><button style={{backgroundColor: 'red'}} onClick={() => removeHandler(blog)}>Delete</button></li>
+            </ul>
         </div>
     )
 }
 
-export default Blog
+/**
+ * The function can be used for defining the props of the
+ * connected component that are based on the state of the Redux store.
+ * @param state
+ */
+const mapStateToProps = (state, ownProps) => {
+
+    const blogId = ownProps.id
+
+    const blogData = state.blogs.find(b => b.id === blogId)
+
+    return { blogData }
+}
+
+/**
+ * Group of action creator functions passed to the connected component as props
+ */
+const mapDispatchToProps = {
+    likeBlog,
+    removeBlog,
+    setNotification
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Blog)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux";
-import Blog from './Blog'
+import { Link } from "react-router-dom";
 
 import { likeBlog } from '../reducers/blogReducer'
 import { removeBlog } from '../reducers/blogReducer'
@@ -9,19 +9,16 @@ import { setNotification } from "../reducers/notificationReducer";
 
 const BlogList = (props) => {
 
-    const likeHandler = (blog) => {
-        props.likeBlog(blog)
-
-        let notificationMsg = `The blog ${blog.title} was liked`
-        props.setNotification(notificationMsg, 'success', 5)
+    const blogStyle = {
+        padding: 7,
+        border: 'solid',
+        borderColor: 'cornflowerblue',
+        borderWidth: 4,
+        borderRadius: 10,
+        marginBottom: 5
     }
 
-    const removeHandler = (blog) => {
-        props.removeBlog(blog)
-
-        let notificationMsg = `The blog ${blog.title} was deleted`
-        props.setNotification(notificationMsg, 'error', 5)
-    }
+    
 
     return (
         <>
@@ -44,13 +41,9 @@ const BlogList = (props) => {
             
             {/* Generate a new Blog element for each blog */}
             {props.visibleBlogs.map(blog =>
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    handleLikes={() => likeHandler(blog)}
-                    deleteBlog={() => removeHandler(blog)}
-                    currentUser={props.currentUser}
-                />
+                <div key={blog.id} id={'blog'} style={blogStyle}>
+                    <Link to={`/blogs/${blog.id}`} >{blog.title}</Link>
+                </div>
             )}
         </>
     )

@@ -1,17 +1,36 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Menu = () => {
-    const menuStyle = {
-        'border': 'aqua',
-        'borderStyle': 'groove'
+
+    const ulStyle = {
+        'listStyleType': 'none',
+        'margin': 0,
+        'padding': 0,
+        'overflow': 'hidden',
+        'borderStyle': 'groove',
+        'borderColor': 'aqua',
+        'borderRadius': '10px'
     }
-    const padding = { paddingRight: 5 }
+
+    const liStyle = {
+        'float': 'left'
+    }
+
+    const linkStyle = {
+        'display': 'block',
+        'textAlign': 'center',
+        'padding': '8px 16px',
+        'textDecoration': 'none'
+    }
+
     return (
-        <div style={menuStyle}>
-            <Link to='/' style={padding}>Home</Link>
-            <Link to='/users' style={padding}>Users</Link>
-            <br />
+        <div>
+            <ul style={ulStyle}>
+                <li style={liStyle}><NavLink to='/' style={linkStyle}>Home</NavLink></li>
+                <li style={liStyle}><NavLink to='/users' style={linkStyle}>Users</NavLink></li>
+                <br />
+            </ul>
         </div>
     )
 }

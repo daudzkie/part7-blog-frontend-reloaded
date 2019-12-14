@@ -44,8 +44,19 @@ const Blog = (props) => {
                 </li>
                 <li>{blog.likes} <button onClick={() => likeHandler(blog)}>Like</button></li>
                 <li>Added by {blog.author}</li>
-                <li><button style={{backgroundColor: 'red'}} onClick={() => removeHandler(blog)}>Delete</button></li>
+                <button style={{backgroundColor: 'red'}} onClick={() => removeHandler(blog)}>Delete</button>
             </ul>
+
+            <h4>Comments</h4>
+            {console.log(blog.comments)}
+            {blog.comments.length === 0
+                ? 'This blog has no comments yet'
+                : 
+                    <ul>
+                        {blog.comments.map(c => 
+                        <li key={c}>{c}</li>)}
+                    </ul>
+            }
         </div>
     )
 }

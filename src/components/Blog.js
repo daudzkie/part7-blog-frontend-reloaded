@@ -1,18 +1,49 @@
 import React from 'react'
 import { connect } from "react-redux";
 
-import { likeBlog } from '../reducers/blogReducer'
-import { removeBlog } from '../reducers/blogReducer'
+/* HOOKS */
+import { useField } from '../hooks/index';
+
+import {
+    likeBlog,
+    removeBlog,
+    addComment
+} from '../reducers/blogReducer'
+
 import { setNotification } from "../reducers/notificationReducer";
 
 const Blog = (props) => {
+
+    // Custom hook
+    const comment = useField('text')
+
+    const { reset: resetComment, ...commentProps } = comment
 
     if (props.blogData === undefined) {
         return null
     }
 
     let blog = props.blogData
-    
+
+    const commentHandler = async (event) => {
+        event.preventDefault()
+
+        try {
+            // Get new comment
+            let newComment = event.target.comment.value
+
+            // Send comment
+            props.addComment(newComment, blog)
+
+        } catch (exception) {
+            // If not, show an error
+            props.setNotification('Wrong credentials. Try again.', 'error', 5)
+        }
+
+        // Clean input using custom hook
+        resetComment()
+    }
+
     const likeHandler = (blog) => {
 
         props.likeBlog(blog)
@@ -22,7 +53,7 @@ const Blog = (props) => {
     }
 
     const removeHandler = (blog) => {
-        
+
         if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
             props.removeBlog(blog)
 
@@ -40,22 +71,28 @@ const Blog = (props) => {
                     {blog.url === ''
                         ? 'No url provided'
                         : <a href={blog.url}>{blog.url}</a>}
-                    
+
                 </li>
                 <li>{blog.likes} <button onClick={() => likeHandler(blog)}>Like</button></li>
                 <li>Added by {blog.author}</li>
-                <button style={{backgroundColor: 'red'}} onClick={() => removeHandler(blog)}>Delete</button>
+                <button style={{ backgroundColor: 'red' }} onClick={() => removeHandler(blog)}>Delete</button>
             </ul>
 
             <h4>Comments</h4>
-            {console.log(blog.comments)}
+            <form onSubmit={commentHandler}>
+                <div>
+                    <input name="comment" {...commentProps} />
+                </div>
+                    <button type="submit">Add comment</button>
+            </form>
+
             {blog.comments.length === 0
                 ? 'This blog has no comments yet'
-                : 
-                    <ul>
-                        {blog.comments.map(c => 
+                :
+                <ul>
+                    {blog.comments.map(c =>
                         <li key={c}>{c}</li>)}
-                    </ul>
+                </ul>
             }
         </div>
     )
@@ -81,6 +118,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
     likeBlog,
     removeBlog,
+    addComment,
     setNotification
 }
 

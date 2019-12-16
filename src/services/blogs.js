@@ -21,6 +21,12 @@ const create = async newObject => {
     return response.data
 }
 
+const createComment = async newObject => {
+
+    const response = await axios.post(`${baseUrl}/${newObject.id}`, newObject)
+    return response.data
+}
+
 // In this case we send only the id and number of likes, not the entire blog post
 const update = async (id, newObject) => {
 
@@ -44,5 +50,6 @@ export default {
     getAll,
     create,
     update,
-    deleteBlog
+    deleteBlog,
+    createComment
 }

@@ -2,7 +2,7 @@ import userService from '../services/users'
 import blogService from '../services/blogs'
 
 const initialState = {
-    currentUser: '',
+    currentUser: undefined,
     userList: []
 }
 

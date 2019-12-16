@@ -13,9 +13,18 @@ const LoginForm = (props) => {
     const username = useField('text')
     const password = useField('password')
 
+
+    /** 
+     *  Toma el valor de `reset` dentro de`username` y lo guarda en`resetTitle`
+     *  Las demas propiedades de`username` son pasadas a`usernameProps`
+     **/
+    const { reset: resetUsername, ...usernameProps } = username
+    const { reset: resetPassword, ...passwordProps } = password
+
     // State hooks
     const [loginVisible, setloginVisible] = useState(false)
 
+    
     // Log every user
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -41,12 +50,22 @@ const LoginForm = (props) => {
         //blogService.setToken(loggedUser.token)
 
         // Empty the form fields using custom hook
-        username.reset('')
-        password.reset('')
+        resetUsername()
+        resetPassword()
     }
 
+
+    /**
+     * Erase localstorage, reset state variables, hide loginForm
+     * and call the logout function from userReducer
+     */
     const handleLogout = async () => {
         window.localStorage.removeItem('loggedBlogAppUser')
+        
+        resetUsername()
+        resetPassword()
+        setloginVisible(false)
+
         props.logout()
     }
 
@@ -57,7 +76,7 @@ const LoginForm = (props) => {
     return (
         <div>
             {/* If user not logged, show loginForm */}
-            {props.currentUser === '' ? 
+            {props.currentUser === undefined ? 
                 <>
                     {/* Show the login form */}
                     <div style={hideWhenVisible} >
@@ -70,11 +89,11 @@ const LoginForm = (props) => {
                         <form onSubmit={handleLogin}>
                             <div>
                                 username
-                            <input name="username" />
+                            <input name="username" {...usernameProps} />
                             </div>
                             <div>
                                 password
-                            <input name="password" />
+                            <input name="password" {...passwordProps} />
                             </div>
                             <button type="submit">Login</button>
                         </form>

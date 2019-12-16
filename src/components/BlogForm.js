@@ -12,6 +12,14 @@ const BlogForm = (props) => {
     const blogAuthor = useField('text')
     const blogUrl = useField('text')
 
+    /**
+     * Toma el valor de `reset` dentro de `title` y lo guarda en `resetTitle`
+     * Las demas propiedades de `title` son pasadas a `titleProps`
+     * */
+    const { reset: resetTitle, ...titleProps } = blogTitle
+    const { reset: resetAuthor, ...authorProps } = blogAuthor
+    const { reset: resetUrl, ...urlProps } = blogUrl
+
     const addBlog = async (event) => {
         // Prevent page reloading
         event.preventDefault()
@@ -37,18 +45,11 @@ const BlogForm = (props) => {
         /* setBlogs(blogs.concat(createdBlog)) */
 
         // Use custom hook functionality to reset state
-        blogTitle.reset()
-        blogAuthor.reset()
-        blogUrl.reset()
-
+        resetTitle()
+        resetAuthor()
+        resetUrl()
     }
-    /**
-     * Toma el valor de `reset` dentro de `title` y lo guarda en `resetTitle`
-     * Las demas propiedades de `title` son pasadas a `titleProps`
-     * */
-    const { reset: resetTitle, ...titleProps } = blogTitle
-    const { reset: resetAuthor, ...authorProps } = blogAuthor
-    const { reset: resetUrl, ...urlProps } = blogUrl
+    
 
     return (
         <>

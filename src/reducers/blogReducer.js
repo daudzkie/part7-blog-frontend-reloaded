@@ -8,6 +8,25 @@ const blogReducer = (state = [], action) => {
         case 'NEW_BLOG':
             // Return an array with the state plus the action
             return [...state, action.data]
+        case 'NEW_COMMENT':
+
+            const blogId = action.data.id
+
+            // Modify the comments from the blog
+            const blogToUpdate = state.find(b => b.id === blogId)
+
+            // Update the comments
+            const updatedBlog = {
+                ...blogToUpdate,
+                comments: action.data.comments
+            }
+
+            /* Return the state with all the
+            blogs that didn't change and the one
+            with the comments added */
+            return state.map(blog => 
+                blog.id !== blogId ? blog : updatedBlog)
+
         case 'LIKE':
             // Extract blog id
             const id = action.data.id
@@ -22,7 +41,7 @@ const blogReducer = (state = [], action) => {
             }
 
             /* Return the state with all the 
-            blogs not changed and the liked one */
+            blogs that didn't change and the liked one */
             return state.map(blog =>
                 blog.id !== id ? blog : likedBlog
             )
@@ -63,6 +82,23 @@ export const createBlog = blogObject => {
         dispatch({
             type: 'NEW_BLOG',
             data: newBlog
+        })
+    }
+}
+
+export const addComment =  (newComment, blog) => {
+    return async dispatch => {
+
+        const newObject = {
+            id: blog.id,
+            newComment: newComment,
+            comments: blog.comments
+        }
+
+        const updatedBlog = await blogService.createComment(newObject)
+        dispatch({
+            type: 'NEW_COMMENT',
+            data: updatedBlog
         })
     }
 }

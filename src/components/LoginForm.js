@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 /* HOOKS */
-import { useField } from '../hooks/index';
+import { useField } from '../hooks/index'
 
-import { login, logout } from "../reducers/userReducer";
-import { setNotification } from "../reducers/notificationReducer";
-import { Button, Form, Input, Icon } from 'semantic-ui-react';
+import { login, logout } from '../reducers/userReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { Button, Form, Input, Icon } from 'semantic-ui-react'
 
 const LoginForm = (props) => {
 
@@ -15,7 +15,7 @@ const LoginForm = (props) => {
     const password = useField('password')
 
 
-    /** 
+    /**
      *  Toma el valor de `reset` dentro de`username` y lo guarda en`resetTitle`
      *  Las demas propiedades de`username` son pasadas a`usernameProps`
      **/
@@ -25,11 +25,11 @@ const LoginForm = (props) => {
     // State hooks
     const [loginVisible, setloginVisible] = useState(false)
 
-    
+
     // Log every user
     const handleLogin = async (event) => {
         event.preventDefault()
-        
+
         try {
 
             // Define credentials
@@ -62,7 +62,7 @@ const LoginForm = (props) => {
      */
     const handleLogout = async () => {
         window.localStorage.removeItem('loggedBlogAppUser')
-        
+
         resetUsername()
         resetPassword()
         setloginVisible(false)
@@ -77,7 +77,7 @@ const LoginForm = (props) => {
     return (
         <div>
             {/* If user not logged, show loginForm */}
-            {props.currentUser === undefined ? 
+            {props.currentUser === undefined ?
                 <>
                     {/* Show the login form */}
                     <div style={hideWhenVisible} >
@@ -107,7 +107,7 @@ const LoginForm = (props) => {
                 : <p>
                     <Icon name="user circle" />
                     <b>{props.currentUser.name}</b> logged in
-                    <Button 
+                    <Button
                         negative
                         style={{ margin: '10px' }}
                         onClick={handleLogout}>Log out

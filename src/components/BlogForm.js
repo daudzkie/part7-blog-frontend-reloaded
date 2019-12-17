@@ -1,11 +1,11 @@
 import React from 'react'
-import { connect } from "react-redux";
+import { connect } from 'react-redux'
 
-import { createBlog } from "../reducers/blogReducer";
+import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-import { useField } from "../hooks/index";
-import { Form, Button } from 'semantic-ui-react';
+import { useField } from '../hooks/index'
+import { Form, Button } from 'semantic-ui-react'
 
 const BlogForm = (props) => {
 
@@ -34,7 +34,7 @@ const BlogForm = (props) => {
         }
 
         props.createBlog(blogObject)
-        
+
         let notificationMsg = `A new blog "${blogObject.title}" was created`
 
         props.setNotification(
@@ -50,7 +50,7 @@ const BlogForm = (props) => {
         resetAuthor()
         resetUrl()
     }
-    
+
 
     return (
         <>

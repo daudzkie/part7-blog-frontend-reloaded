@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('Testing <Blog /> component', () => {
@@ -45,11 +45,11 @@ describe('Testing <Blog /> component', () => {
     test('after clicking the button, children are displayed', () => {
 
         // Find blog and click it
-        const blogDiv = component.container.querySelector("#blog div")
+        const blogDiv = component.container.querySelector('#blog div')
         fireEvent.click(blogDiv)
 
         // Find ul with blog details
-        const expandedDiv = component.container.querySelector("ul")
+        const expandedDiv = component.container.querySelector('ul')
 
         expect(expandedDiv).not.toHaveStyle('display: none')
     })

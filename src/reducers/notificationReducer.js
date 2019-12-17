@@ -1,12 +1,12 @@
 const notificationReducer = (state = {}, action) => {
     switch (action.type) {
-        case 'CREATE_NOTIFICATION':
-            // Send the text and style data to Notification component
-            return action.data
-        case 'REMOVE_NOTIFICATION':
-            return ''
-        default:
-            return state
+    case 'CREATE_NOTIFICATION':
+        // Send the text and style data to Notification component
+        return action.data
+    case 'REMOVE_NOTIFICATION':
+        return ''
+    default:
+        return state
     }
 }
 
@@ -28,7 +28,7 @@ const removeNotification = () => {
 
 // https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559
 /**
- * 
+ *
  * @param {string} text The notification message
  * @param {int} time The number of seconds to be shown
  * @param {string} style success or error

@@ -2,14 +2,13 @@ import React from 'react'
 import { render, waitForElement } from '@testing-library/react'
 jest.mock('./services/blogs')
 import App from './App'
-import { act } from 'react-dom/test-utils'
 
 describe('<App />', () => {
     test('5.16 - if no user logged, blogs are not rendered', async () => {
         const component = render(
             <App />
         )
-        
+
         // This is done to ensure that all of the effects are executed
         // Might be fixed in future version of React
         component.rerender(<App />)
@@ -17,7 +16,7 @@ describe('<App />', () => {
         /* Wait for the login button to be rendered
         https://testing-library.com/docs/dom-testing-library/api-async#waitforelement */
         await waitForElement(() => component.getByText('Log In'))
-        
+
         expect(component.container).not.toHaveTextContent('New blog post')
     })
 

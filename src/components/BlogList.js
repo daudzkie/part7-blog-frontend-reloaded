@@ -1,11 +1,11 @@
 import React from 'react'
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { likeBlog } from '../reducers/blogReducer'
 import { removeBlog } from '../reducers/blogReducer'
-import { filterChange } from "../reducers/filterReducer"
-import { Header, Form, Item } from 'semantic-ui-react';
+import { filterChange } from '../reducers/filterReducer'
+import { Header, Form, Item } from 'semantic-ui-react'
 
 const BlogList = (props) => {
 
@@ -20,7 +20,7 @@ const BlogList = (props) => {
                         checked={props.filter === 'CREATED'}
                         name="filter"
                         onChange={() => props.filterChange('CREATED')}
-                        />
+                    />
                     <Form.Radio
                         label="Most liked"
                         name="filter"
@@ -28,11 +28,11 @@ const BlogList = (props) => {
                         onChange={() => props.filterChange('LIKES')}
                     />
                 </Form>
-            
+
             {/* Generate a new Blog element for each blog */}
             <Item.Group divided>
                 {props.visibleBlogs.map(blog =>
-                    <Item key={blog.id} id={'blog'} as={Link} to={`/blogs/${blog.id}`}>            
+                    <Item key={blog.id} id={'blog'} as={Link} to={`/blogs/${blog.id}`}>
                         <Item.Header>{blog.title}</Item.Header>
                     </Item>
                 )}
@@ -48,7 +48,7 @@ const BlogList = (props) => {
  */
 const blogsToShow = ({ blogs, filter }) => {
 
-    if (filter === 'LIKES') {    
+    if (filter === 'LIKES') {
         // Do not mutate data
         // Create a new array with the current blogs
         let blogsToSort = Array.from(blogs)

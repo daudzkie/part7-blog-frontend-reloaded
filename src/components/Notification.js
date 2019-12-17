@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect } from "react-redux";
-import { Message } from 'semantic-ui-react';
+import { connect } from 'react-redux'
+import { Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
 

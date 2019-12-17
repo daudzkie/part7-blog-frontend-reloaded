@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import {
     BrowserRouter as Router,
     Route,
-} from "react-router-dom";
+} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 /* COMPONENTS */
@@ -15,12 +15,12 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 
 /* REDUCERS */
-import { initializeBlogs } from "./reducers/blogReducer";
+import { initializeBlogs } from './reducers/blogReducer'
 import { relogin, getAllUsers } from './reducers/userReducer'
-import UserList from './components/UserList';
-import User from "./components/User";
-import Blog from './components/Blog';
-import { Container, Header } from 'semantic-ui-react';
+import UserList from './components/UserList'
+import User from './components/User'
+import Blog from './components/Blog'
+import { Container, Header } from 'semantic-ui-react'
 
 const App = (props) => {
 
@@ -40,17 +40,23 @@ const App = (props) => {
         }
     })
 
+    let h1Margin = {
+        marginTop: '2em'
+    }
+
     return (
         <Container>
-        <div>
-            <Header as="h1" textAlign="center">
-                Blogs App
-            </Header>
-            <Router>
-                <Notification />
-                <NavBar />
-                <LoginForm />
-                <Route exact path="/" render={() => 
+            <div>
+                <Header as="h1" style={h1Margin} textAlign="center">
+                    Blogs App - <a href="https://fullstackopen.com/en/">
+                        Fullstack Open Course
+                    </a>
+                </Header>
+                <Router>
+                    <Notification />
+                    <NavBar />
+                    <LoginForm />
+                    <Route exact path="/" render={() =>
                 <>
                 <Header as="h2">Blogs</Header>
                     {/* Add visibility functionality to the Blog Form */}
@@ -60,21 +66,21 @@ const App = (props) => {
                         props.children will be an empty array */}
                     </Togglable>
                     <BlogList />
-                </> 
-                    
-                }/>
+                </>
 
-                <Route path="/blogs/:id" render={({ match }) =>
-                    <Blog id={match.params.id} /> 
-                }/>
-                <Route path="/users" render={() => <UserList />} />
-                <Route exact path="/users/:id" render={({ match }) =>
-                    <User id={match.params.id} />
-                }/>
-            </Router>
-            <br />
-            <Footer />
-        </div>
+                    }/>
+
+                    <Route path="/blogs/:id" render={({ match }) =>
+                        <Blog id={match.params.id} />
+                    }/>
+                    <Route path="/users" render={() => <UserList />} />
+                    <Route exact path="/users/:id" render={({ match }) =>
+                        <User id={match.params.id} />
+                    }/>
+                </Router>
+                <br />
+                <Footer />
+            </div>
         </Container>
     )
 }

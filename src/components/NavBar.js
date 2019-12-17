@@ -7,7 +7,7 @@ const NavBar = () => {
     const currentPath = window.location.pathname
     const [activePage, setActivePage] = useState(currentPath)
 
-    // currentPath on home === '/' so using 
+    // currentPath on home === '/' so using
     // 'to' parameter from the item accomplishes the task
     const handleItemClick = (e, { to }) => setActivePage(to)
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Header, Table } from 'semantic-ui-react';
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Header, Table } from 'semantic-ui-react'
 
 const userList = (props) => {
 
@@ -24,7 +24,7 @@ const userList = (props) => {
                     </Table.Header>
                     <Table.Body>
                         {/* Generate a new row for each user */}
-                        {props.users.map(user => 
+                        {props.users.map(user =>
                             <Table.Row key={user.id}>
                                 <Table.Cell>
                                     <Link to={`/users/${user.id}`}>{user.name}</Link>

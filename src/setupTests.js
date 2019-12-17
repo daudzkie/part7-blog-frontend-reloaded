@@ -13,6 +13,6 @@ const localStorageMock = {
     }
 }
 
-/* Add a property called 'localStorage' 
+/* Add a property called 'localStorage'
 to the window object with the value defined above */
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })

@@ -1,9 +1,9 @@
 import React from 'react'
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 /* HOOKS */
-import { useField } from '../hooks/index';
+import { useField } from '../hooks/index'
 
 import {
     likeBlog,
@@ -11,8 +11,8 @@ import {
     addComment
 } from '../reducers/blogReducer'
 
-import { setNotification } from "../reducers/notificationReducer";
-import { Card, Icon, Button, Divider, Header, Form, List } from 'semantic-ui-react';
+import { setNotification } from '../reducers/notificationReducer'
+import { Card, Icon, Button, Divider, Header, Form, List } from 'semantic-ui-react'
 
 const BlogNoHistory = (props) => {
 
@@ -49,7 +49,7 @@ const BlogNoHistory = (props) => {
     const likeHandler = (blog) => {
 
         props.likeBlog(blog)
-        
+
         let notificationMsg = `The blog ${blog.title} was liked`
         props.setNotification(notificationMsg, 'positive', 5)
     }
@@ -67,7 +67,7 @@ const BlogNoHistory = (props) => {
             let notificationMsg = `The blog ${blog.title} was deleted`
             props.setNotification(notificationMsg, 'negative', 5)
         }
-        
+
         return 0
     }
 
@@ -85,7 +85,7 @@ const BlogNoHistory = (props) => {
                     }
                     <Divider />
                     <Card.Content extra>
-                        <Button 
+                        <Button
                             content="Like"
                             labelPosition='right'
                             icon="heart"
@@ -93,7 +93,7 @@ const BlogNoHistory = (props) => {
                             onClick={() => likeHandler(blog)}
                         >
                         </Button>
-                        <Button 
+                        <Button
                             basic
                             color='red'
                             icon='trash'

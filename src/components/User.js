@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect } from "react-redux";
-import { Card, List, Header, Loader } from 'semantic-ui-react';
+import { connect } from 'react-redux'
+import { Card, List, Header, Loader } from 'semantic-ui-react'
 
 const User = (props) => {
 
@@ -39,7 +39,7 @@ const User = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
 
-    // Use the prop passed in the rendering of the component 
+    // Use the prop passed in the rendering of the component
     // <User id={'someId'} => ownProps.id == 'someId'
     const userId = ownProps.id
 

@@ -9,54 +9,50 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case 'LOGIN':
-            console.log(action.data)
+    case 'LOGIN':
+        console.log(action.data)
 
-            return {
-                ...state,
-                currentUser: action.data
-            }
-        case 'LOGOUT':
-            return ''
-        case 'GET_USERS':
+        return {
+            ...state,
+            currentUser: action.data
+        }
+    case 'LOGOUT':
+        return ''
+    case 'GET_USERS':
 
-            return {
-                ...state,
-                userList: action.data
-            }
-        case 'NEW_BLOG':
-            // Update the user's blogs array
+        return {
+            ...state,
+            userList: action.data
+        }
+    case 'NEW_BLOG': {
+        // Update the user's blogs array
 
-            console.log('new Blog', action.data)
+        // Get the newly created blog
+        let newBlog = action.data
 
-            console.log('current state', state)
-            
-            // Get the newly created blog
-            let newBlog = action.data
+        // Get the userId who created the blog
+        let userId = action.data.user
 
-            // Get the userId who created the blog
-            let userId = action.data.user
+        // Clone the userList with his nested props
+        let newUserList = [...state.userList]
 
-            // Clone the userList with his nested props
-            let newUserList = [...state.userList]
-
-            /**
+        /**
              * Find the user who created the blog in the list
              * Then PUSH the new blog into the `blogs` array
              * This MODIFIES the newUserList
              */
-            newUserList
-                .find(u => u.id === userId)
-                .blogs.push(newBlog)
+        newUserList
+            .find(u => u.id === userId)
+            .blogs.push(newBlog)
 
-            return {
-                ...state,
-                userList: newUserList
-            }
-            
-            
-        default:
-            return state
+        return {
+            ...state,
+            userList: newUserList
+        }
+
+    }
+    default:
+        return state
     }
 }
 
@@ -68,7 +64,7 @@ const userReducer = (state = initialState, action) => {
  */
 export const login = credentials => {
     return async dispatch => {
-        
+
         // Send login request and save user information on `user`
         const loggedUser = await userService.login(credentials)
 
@@ -99,7 +95,7 @@ export const relogin = credentials => {
 
     // Set token to be able to create new blog posts
     blogService.setToken(credentials.token)
-    
+
     return {
         type: 'LOGIN',
         data: credentials

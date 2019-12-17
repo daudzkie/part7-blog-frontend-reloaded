@@ -5,46 +5,39 @@ import { Link } from "react-router-dom";
 import { likeBlog } from '../reducers/blogReducer'
 import { removeBlog } from '../reducers/blogReducer'
 import { filterChange } from "../reducers/filterReducer"
-import { setNotification } from "../reducers/notificationReducer";
+import { Header, Form, Item } from 'semantic-ui-react';
 
 const BlogList = (props) => {
 
-    const blogStyle = {
-        padding: 7,
-        border: 'solid',
-        borderColor: 'cornflowerblue',
-        borderWidth: 4,
-        borderRadius: 10,
-        marginBottom: 5
-    }
-
-    
-
     return (
         <>
-            <div style={({ marginBottom: 10 })}>
-                <h3>Blogs</h3>
-                <h5>Order by</h5>
-                Most liked
-                <input
-                    type="radio"
-                    name="filter"
-                    onChange={() => props.filterChange('LIKES')}
-                />
-                Creation Order
-                <input
-                    type="radio"
-                    name="filter"
-                    onChange={() => props.filterChange('CREATED')}
-                />
-            </div>
+                <Header as="h4" dividing>
+                    Order by
+                </Header>
+                <Form>
+                    <Form.Radio
+                        label="Creation Order"
+                        checked={props.filter === 'CREATED'}
+                        name="filter"
+                        onChange={() => props.filterChange('CREATED')}
+                        />
+                    <Form.Radio
+                        label="Most liked"
+                        name="filter"
+                        checked={props.filter === 'LIKES'}
+                        onChange={() => props.filterChange('LIKES')}
+                    />
+                </Form>
             
             {/* Generate a new Blog element for each blog */}
-            {props.visibleBlogs.map(blog =>
-                <div key={blog.id} id={'blog'} style={blogStyle}>
-                    <Link to={`/blogs/${blog.id}`} >{blog.title}</Link>
-                </div>
-            )}
+            <Item.Group divided>
+                {props.visibleBlogs.map(blog =>
+                    <Item key={blog.id} id={'blog'} as={Link} to={`/blogs/${blog.id}`}>            
+                        <Item.Header>{blog.title}</Item.Header>
+                    </Item>
+                )}
+            </Item.Group>
+
         </>
     )
 }
@@ -87,8 +80,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     likeBlog,
     removeBlog,
-    filterChange,
-    setNotification
+    filterChange
 }
 
 // we can export directly the component returned by connect

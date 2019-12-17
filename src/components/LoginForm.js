@@ -6,6 +6,7 @@ import { useField } from '../hooks/index';
 
 import { login, logout } from "../reducers/userReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import { Button, Form, Input, Icon } from 'semantic-ui-react';
 
 const LoginForm = (props) => {
 
@@ -43,7 +44,7 @@ const LoginForm = (props) => {
 
         } catch (exception) {
             // If not, show an error
-            props.setNotification('Wrong credentials. Try again.', 'error', 5)
+            props.setNotification('Wrong credentials. Try again.', 'negative', 5)
         }
 
         // Set the token to be sent in each blog creation (POST)
@@ -80,31 +81,37 @@ const LoginForm = (props) => {
                 <>
                     {/* Show the login form */}
                     <div style={hideWhenVisible} >
-                        <button onClick={() => setloginVisible(true)}>Log In</button>
+                        <Button onClick={() => setloginVisible(true)} color='green'>Log In</Button>
                     </div>
-
 
                     <div style={showWhenVisible}>
                         <h2>Login</h2>
-                        <form onSubmit={handleLogin}>
-                            <div>
-                                username
-                            <input name="username" {...usernameProps} />
-                            </div>
-                            <div>
-                                password
-                            <input name="password" {...passwordProps} />
-                            </div>
-                            <button type="submit">Login</button>
-                        </form>
-
-                        {/* Hide the login form */}
-                        <button onClick={() => setloginVisible(false)}>Cancel</button>
-
+                        <Form onSubmit={handleLogin}>
+                            <Form.Field inline required>
+                                <label>Username</label>
+                                <Input name="username" {...usernameProps} />
+                            </Form.Field>
+                            <Form.Field inline required>
+                                <label>Password</label>
+                                <Input
+                                    name="password"
+                                    {...passwordProps}
+                                />
+                            </Form.Field>
+                            {/* Hide the login form */}
+                            <Button positive type="submit">Submit</Button>
+                            <Button type="button" onClick={() => setloginVisible(false)} >Cancel</Button>
+                        </Form>
                     </div>
                 </>
-                : <p><b>{props.currentUser.name}</b> logged in
-                    <button style={{ margin: '10px' }} onClick={handleLogout}>Log out</button>
+                : <p>
+                    <Icon name="user circle" />
+                    <b>{props.currentUser.name}</b> logged in
+                    <Button 
+                        negative
+                        style={{ margin: '10px' }}
+                        onClick={handleLogout}>Log out
+                    </Button>
                 </p>
             }
         </div>

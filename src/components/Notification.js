@@ -1,20 +1,33 @@
 import React from 'react'
 import { connect } from "react-redux";
+import { Message } from 'semantic-ui-react';
 
 const Notification = (props) => {
 
+    console.log('notif', props)
     const notificationMessage = props.notifications.text
+    const notificationStyle = props.notifications.style
 
-    if (notificationMessage === '') {
+    if (notificationMessage === undefined) {
         return null
     }
 
     return (
-        <div className={props.notifications.style}>
-            {notificationMessage}
-        </div>
+        <>
+            {notificationStyle === 'positive'
+                ?
+                <Message positive>
+                    {notificationMessage}
+                </Message>
+                :
+                <Message error>
+                    {notificationMessage}
+                </Message>
+            }
+
+        </>
     )
-    
+
 }
 
 const mapStateToProps = (state) => {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 /* HOOKS */
 import { useField } from '../hooks/index';
@@ -11,8 +12,9 @@ import {
 } from '../reducers/blogReducer'
 
 import { setNotification } from "../reducers/notificationReducer";
+import { Card, Icon, Button, Divider, Header, Form, List } from 'semantic-ui-react';
 
-const Blog = (props) => {
+const BlogNoHistory = (props) => {
 
     // Custom hook
     const comment = useField('text')
@@ -37,7 +39,7 @@ const Blog = (props) => {
 
         } catch (exception) {
             // If not, show an error
-            props.setNotification('Wrong credentials. Try again.', 'error', 5)
+            props.setNotification('Wrong credentials. Try again.', 'negative', 5)
         }
 
         // Clean input using custom hook
@@ -47,54 +49,84 @@ const Blog = (props) => {
     const likeHandler = (blog) => {
 
         props.likeBlog(blog)
-
+        
         let notificationMsg = `The blog ${blog.title} was liked`
-        props.setNotification(notificationMsg, 'success', 5)
+        props.setNotification(notificationMsg, 'positive', 5)
     }
 
     const removeHandler = (blog) => {
 
         if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+            // Call the blogReducer method
             props.removeBlog(blog)
 
+            // Go home (withRouter functionality)
+            props.history.push('/')
+
+            // Set notification
             let notificationMsg = `The blog ${blog.title} was deleted`
-            props.setNotification(notificationMsg, 'error', 5)
+            props.setNotification(notificationMsg, 'negative', 5)
         }
+        
         return 0
     }
 
     return (
-        <div>
-            <h2>{blog.title}</h2>
-            <ul>
-                <li>
+        <>
+            <Card>
+                <Card.Content>
+                    <Card.Header>{blog.title}</Card.Header>
+                    <Card.Meta>Added by {blog.author}</Card.Meta>
                     {blog.url === ''
                         ? 'No url provided'
-                        : <a href={blog.url}>{blog.url}</a>}
-
-                </li>
-                <li>{blog.likes} <button onClick={() => likeHandler(blog)}>Like</button></li>
-                <li>Added by {blog.author}</li>
-                <button style={{ backgroundColor: 'red' }} onClick={() => removeHandler(blog)}>Delete</button>
-            </ul>
-
-            <h4>Comments</h4>
-            <form onSubmit={commentHandler}>
-                <div>
-                    <input name="comment" {...commentProps} />
-                </div>
-                    <button type="submit">Add comment</button>
-            </form>
-
-            {blog.comments.length === 0
-                ? 'This blog has no comments yet'
-                :
-                <ul>
-                    {blog.comments.map(c =>
-                        <li key={c}>{c}</li>)}
-                </ul>
-            }
-        </div>
+                        : <Card.Content extra>
+                            <Icon name='linkify' /> {blog.url}
+                        </Card.Content>
+                    }
+                    <Divider />
+                    <Card.Content extra>
+                        <Button 
+                            content="Like"
+                            labelPosition='right'
+                            icon="heart"
+                            label={{ as: 'a', basic: true, content: blog.likes }}
+                            onClick={() => likeHandler(blog)}
+                        >
+                        </Button>
+                        <Button 
+                            basic
+                            color='red'
+                            icon='trash'
+                            onClick={() => removeHandler(blog)}
+                        />
+                    </Card.Content>
+                </Card.Content>
+            </Card>
+            <Divider />
+            <>
+                <Header as="h4">Comments</Header>
+                {blog.comments.length === 0
+                    ? 'This blog has no comments yet'
+                    :
+                    <List divided animated >
+                        {blog.comments.map(c =>
+                            <List.Item key={c}>
+                                {c}
+                            </List.Item>
+                        )}
+                    </List>
+                }
+                <Form onSubmit={commentHandler}>
+                    <Form.Input
+                        name="comment"
+                        width={4}
+                        placeholder="Great post!"
+                        {...commentProps}
+                    />
+                    <Button type="submit">Add comment</Button>
+                </Form>
+            </>
+        </>
     )
 }
 
@@ -121,6 +153,8 @@ const mapDispatchToProps = {
     addComment,
     setNotification
 }
+
+const Blog = withRouter(BlogNoHistory)
 
 export default connect(
     mapStateToProps,

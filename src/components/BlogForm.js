@@ -5,6 +5,7 @@ import { createBlog } from "../reducers/blogReducer";
 import { setNotification } from '../reducers/notificationReducer'
 
 import { useField } from "../hooks/index";
+import { Form, Button } from 'semantic-ui-react';
 
 const BlogForm = (props) => {
 
@@ -38,7 +39,7 @@ const BlogForm = (props) => {
 
         props.setNotification(
             notificationMsg,
-            'success',
+            'positive',
             5
         )
 
@@ -53,24 +54,30 @@ const BlogForm = (props) => {
 
     return (
         <>
-            <h2>Create new blog post</h2>
-            <form onSubmit={addBlog}>
-                <div>
-                    Title:
-                    <input name="title" {...titleProps} />
-                </div>
-                <div>
-                    Author:
-                    <input name="author" {...authorProps}  />
-                </div>
-                <div>
-                    URL:
-                    <input name="url" {...urlProps} />
-                </div>
-                <button type="submit">Create</button>
-            </form>
+        <h4>Create a new blog post</h4>
+            <Form onSubmit={addBlog} size="small" >
+                <Form.Input
+                    label="Title"
+                    name="title"
+                    width={4}
+                    {...titleProps}
+                />
+                <Form.Input
+                    label="Author"
+                    name="author"
+                    width={4}
+                    {...authorProps}
+                />
+                <Form.Input
+                    label="URL"
+                    name="url"
+                    width={4}
+                    {...urlProps}
+                />
+                <Button positive type="submit">Create</Button>
+            </Form>
         </>
-    );
+    )
 }
 
 const mapStateToProps = (state) => {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Header, Table } from 'semantic-ui-react';
 
 const userList = (props) => {
 
-    console.log('list', props)
     /* When navigating directly to /users/, the React application
     has not yet received the data from the backend.  */
     if (props.users === undefined) {
@@ -13,27 +13,27 @@ const userList = (props) => {
 
     return (
         <>
-            <div style={({ marginBottom: 10 })}>
-                <h3>Users</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>N° of blogs created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Header as="h2">Users</Header>
+
+                <Table compact>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Username</Table.HeaderCell>
+                            <Table.HeaderCell>N° of blogs created</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
                         {/* Generate a new row for each user */}
                         {props.users.map(user => 
-                            <tr key={user.id}>
-                                <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
-                                <td>{user.blogs.length}</td>
-                            </tr>
+                            <Table.Row key={user.id}>
+                                <Table.Cell>
+                                    <Link to={`/users/${user.id}`}>{user.name}</Link>
+                                </Table.Cell>
+                                <Table.Cell>{user.blogs.length}</Table.Cell>
+                            </Table.Row>
                         )}
-                    </tbody>
-                </table>
-            </div>
-            
+                    </Table.Body>
+                </Table>
         </>
     )
 }

@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = '/api/'
+
+// This env variable is defined in the webpack config
+const baseUrl = `${BACKEND_URL}/api/`
 
 const login = async credentials => {
     const response = await axios.post(baseUrl + 'login', credentials)

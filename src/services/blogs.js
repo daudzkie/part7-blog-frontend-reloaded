@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+
+// This env variable is defined in the webpack config
+const baseUrl = `${BACKEND_URL}/api/blogs`
 
 let token = null
 

@@ -4,7 +4,6 @@ import { Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
 
-    console.log('notif', props)
     const notificationMessage = props.notifications.text
     const notificationStyle = props.notifications.style
 

@@ -89,17 +89,22 @@ const LoginForm = (props) => {
                         <Form onSubmit={handleLogin}>
                             <Form.Field inline required>
                                 <label>Username</label>
-                                <Input name="username" {...usernameProps} />
+                                <Input 
+                                    name="username"
+                                    {...usernameProps}
+                                    data-cy="username"
+                                />
                             </Form.Field>
                             <Form.Field inline required>
                                 <label>Password</label>
                                 <Input
                                     name="password"
                                     {...passwordProps}
+                                    data-cy="password"
                                 />
                             </Form.Field>
                             {/* Hide the login form */}
-                            <Button positive type="submit">Submit</Button>
+                            <Button positive type="submit" data-cy="submit">Submit</Button>
                             <Button type="button" onClick={() => setloginVisible(false)} >Cancel</Button>
                         </Form>
                     </div>

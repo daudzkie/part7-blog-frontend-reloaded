@@ -1,23 +1,12 @@
 Part 7 | Fullstack course
 ===
-Part 5 can be seen from this commit
 
-## Blog App Frontend (with Redux)
+### This is the same Blog App from [Part 5](https://github.com/marcorichetta/part5-blog-frontend) but reloaded with Redux, React-Router, Semantic UI, Webpack and Cypress
 
-**This is the frontend part of the blog app**
-
-## Part 5
-- React Hooks (State, Effect)
-- Conditional Rendering
-- Token based authentication with [JSON Web Token](https://jwt.io/)
-  - Local Storage to save the state between sessions
-- Unit and integration test
-  - Mock data with jest testing library
-  - [Mock functionality like localStorage or entire modules of our application](https://fullstackopen.com/en/part5/testing_react_apps#frontend-integration-tests)
-  - Test coverage
+**The backend can be found [here](https://github.com/marcorichetta/part4-blog-backend)** 
 
 ## Part 7
-**Part of the exercises were to apply the Redux knowledge from [Part 6](https://fullstackopen.com/en/part6) to this app previously managed with state hooks**
+**Part of the exercises were to refactor the App state (previously managed with state hooks) with the Redux knowledge from [Part 6](https://fullstackopen.com/en/part6)**
 
 - State management with Redux
   - Global Store
@@ -51,3 +40,9 @@ width="640" >
 - Use of **Transpilers** to deal with React(.jsx)
 - **Source maps** to better debugging on the browser
 - **Minification** (Dev and Prod mode)
+
+### Part 7 D - E2E testing with Cypress
+- Use of Cypress to test the functionality of the frontend/backend
+- Use of API endpoint only for testing
+  - `/api/testing` empties the DB
+  - Tests can start from the same initial state

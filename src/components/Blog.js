@@ -122,6 +122,7 @@ const BlogNoHistory = (props) => {
                         width={4}
                         placeholder="Great post!"
                         {...commentProps}
+                        data-cy="comment-input"
                     />
                     <Button type="submit">Add comment</Button>
                 </Form>

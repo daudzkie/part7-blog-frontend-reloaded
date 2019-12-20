@@ -61,20 +61,23 @@ const BlogForm = (props) => {
                     name="title"
                     width={4}
                     {...titleProps}
+                    data-cy='title-input'
                 />
                 <Form.Input
                     label="Author"
                     name="author"
                     width={4}
                     {...authorProps}
+                    data-cy='author-input'
                 />
                 <Form.Input
                     label="URL"
                     name="url"
                     width={4}
                     {...urlProps}
+                    data-cy='url-input'
                 />
-                <Button positive type="submit">Create</Button>
+                <Button positive type="submit" data-cy='blog-submit'>Create</Button>
             </Form>
         </>
     )

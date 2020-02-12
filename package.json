@@ -50,13 +50,7 @@
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.2.0",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.0",
     "cypress": "^3.7.0",
-    "eslint-plugin-jest": "^22.17.0",
-    "file-loader": "^5.0.2",
-    "style-loader": "^1.0.2",
-    "webpack": "^4.41.3",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0"
+    "eslint-plugin-jest": "^22.17.0"
   }
 }

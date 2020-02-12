@@ -1,9 +1,13 @@
 Part 7 | Fullstack course
 ===
 
+### **The app is running at**: **https://part4-blog-backend.herokuapp.com/**
+- **Test user**: *rich*
+- **Test pwd**: *rich*
+
 ### This is the same Blog App from [Part 5](https://github.com/marcorichetta/part5-blog-frontend) but reloaded with Redux, React-Router, Semantic UI, Webpack and Cypress
 
-**The backend can be found [here](https://github.com/marcorichetta/part4-blog-backend)** 
+**The backend source can be found at https://github.com/marcorichetta/part4-blog-backend** 
 
 ## Part 7
 **Part of the exercises were to refactor the App state (previously managed with state hooks) with the Redux knowledge from [Part 6](https://fullstackopen.com/en/part6)**
